@@ -7,8 +7,8 @@ const GlobalStyle = createGlobalStyle`
   
   html {
     font-size: 62.5%;
-    color: white;
-    background: black;
+    color: black;
+    background: blanchedalmond;
   }
   
   body {
