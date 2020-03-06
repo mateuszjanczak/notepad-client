@@ -3,13 +3,15 @@ import {NavLink} from "react-router-dom";
 import styled from "styled-components";
 
 const Nav = styled.nav`
+  background: #333;
+  display: flex;
+  justify-content: space-between;
 `;
 
 const NavList = styled.ul`
   margin: 0;
   padding: 0;
   list-style: none;
-  background: limegreen;
   display: flex;
 `;
 
@@ -19,16 +21,16 @@ const NavListItem = styled.li`
 
 const Link = styled.button`
   display: block;
-  color: black;
+  color: white;
   text-decoration: none;
-  padding: 10px;
+  padding: 14px 16px;
 
   &:hover {
-  background-color: greenyellow;
+    background-color: #111;;
   }
   
   &.active {
-    text-decoration: underline;
+    //text-decoration: underline;
   }
 `;
 
@@ -43,6 +45,15 @@ const Navbar = () => {
                     <Link as={NavLink} to="/notes">Notes</Link>
                 </NavListItem>
             </NavList>
+            <NavList>
+                <NavListItem>
+                    <Link as={NavLink} to="/">Login</Link>
+                </NavListItem>
+                <NavListItem>
+                    <Link as={NavLink} to="/">Register</Link>
+                </NavListItem>
+            </NavList>
+
         </Nav>
     )
 };

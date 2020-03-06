@@ -5,10 +5,9 @@ import Title from "components/atoms/Title";
 const Wrapper = styled.div`
   width: 100%;
   padding: 1rem 2rem;
-  border: 1px solid black;
+  border: 1px solid #ffeb3b;
   color: black;
-  background: limegreen;
-  border-radius: 1rem;
+  background: linear-gradient(0deg, rgba(255,255,200,1) 20%, rgba(255,255,225,1) 100%);
 `;
 
 const Text = styled.div`
