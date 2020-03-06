@@ -8,7 +8,7 @@ import SingleNote from "views/SingleNote";
 import Err404 from "views/Err404";
 import GlobalStyle from "theme";
 import Navbar from "components/organisms/Navbar";
-import Footer from "./components/organisms/Footer";
+import Footer from "components/organisms/Footer";
 
 const Wrapper = styled.div`
   min-height: calc(100vh - 5rem);

@@ -10,9 +10,24 @@ const List = styled.div`
   padding: 5rem;
   //border: 1px solid white;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
   grid-gap: 5rem;
   justify-items: center;
+  
+  @media (min-width: 640px) {
+    grid-template-columns: 1fr;
+  }
+  
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+    
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  @media (min-width: 1280px) {
+    grid-template-columns: repeat(5, 1fr);
+  }
 `;
 
 const Notes = () => {
