@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import Title from "components/atoms/Title";
 import Button from "components/atoms/Button";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faBookOpen,  faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -22,9 +24,9 @@ const Text = styled.div`
 
 const Actions = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 2rem;
-  justify-content: space-around;
+  grid-template-columns: repeat(3, 4rem);
+  grid-gap: 1rem;
+  justify-content: flex-end;
   margin-top: 1rem;
 `;
 
@@ -47,13 +49,19 @@ const Note = (props) => {
             <Line/>
             <Actions>
                 <Action>
-                    <Button>View</Button>
+                    <Button>
+                        <FontAwesomeIcon icon={faBookOpen} />
+                    </Button>
                 </Action>
                 <Action>
-                    <Button>Edit</Button>
+                    <Button>
+                        <FontAwesomeIcon icon={faEdit} />
+                    </Button>
                 </Action>
                 <Action>
-                    <Button color={Colors.remove}>Delete</Button>
+                    <Button color={Colors.remove}>
+                        <FontAwesomeIcon icon={faTrash} />
+                    </Button>
                 </Action>
             </Actions>
         </Wrapper>

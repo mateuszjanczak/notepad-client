@@ -3,7 +3,7 @@ import styled from "styled-components";
 const Button = styled.a`
   width: 100%;
   background: ${props => props.color ? props.color : '#333'};
-  padding: 0.5rem 2rem;
+  padding: 0.5rem 1rem;
   color: white;
   text-align: center;
   font-size: 14px;
@@ -12,7 +12,7 @@ const Button = styled.a`
   display: inline-block;
   text-decoration: none;
   cursor: pointer;
-  border-radius: 1rem;
+  border-radius: 10%;
   &:hover {
     opacity: 1;
   }
