@@ -1,9 +1,12 @@
 import React from "react";
+import {Switch, Route, withRouter} from "react-router-dom";
 import styled from "styled-components";
 import Title from "components/atoms/Title";
 import Button from "components/atoms/Button";
 import {faTimes} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {routes} from "routes";
+import {connect} from "react-redux";
 
 const Wrapper = styled.div`
   position: fixed;
@@ -41,7 +44,7 @@ const TextArea = styled.textarea`
   height: 300px;
 `;
 
-const ActionAdd = styled.div`
+const Action = styled.div`
   display: grid;
   justify-content: center;
   grid-template-columns: repeat(auto-fit, 5rem);
@@ -54,12 +57,22 @@ const ActionClose = styled.div`
   margin-bottom: -3rem;
 `;
 
+
 class Modal extends React.Component {
 
     state = {
         title: '',
         content: ''
     };
+
+    componentDidMount() {
+        const { notes } = this.props;
+        const { id } = this.props.match.params;
+        const note = notes.find(note=>note.id === parseInt(id));
+        this.setState({
+            ...note
+        })
+    }
 
     handleChangeTitle = (e) => {
         this.setState({
@@ -73,9 +86,8 @@ class Modal extends React.Component {
         });
     };
 
-    handleClick = () => {
-        const { addNoteFn, closeModalFn } = this.props;
-        addNoteFn(this.state);
+    afterHandle = () => {
+        const { closeModalFn } = this.props;
         this.setState({
             title: '',
             content: ''
@@ -83,10 +95,39 @@ class Modal extends React.Component {
         closeModalFn();
     };
 
+    handleClickAdd = () => {
+        const { addNoteFn } = this.props;
+        addNoteFn(this.state);
+        this.afterHandle();
+    };
+
+    handleClickEdit = () => {
+        const { editNoteFn } = this.props;
+        const { id } = this.props.match.params;
+        editNoteFn(id, this.state);
+        this.afterHandle();
+    };
+
     render() {
         const {closeModalFn} = this.props;
+        const { title, content } = this.state;
 
-        const { title, note } = this.state;
+        const actionAdd = () => {
+            return (
+                <Action>
+                    <Button onClick={this.handleClickAdd}>Add</Button>
+                </Action>
+            )
+        };
+
+        const actionEdit = () => {
+            return (
+                <Action>
+                    <Button onClick={this.handleClickEdit}>Edit</Button>
+                </Action>
+            )
+        };
+
 
         return (
             <Wrapper>
@@ -103,11 +144,13 @@ class Modal extends React.Component {
                         </div>
                         <div>
                             <Title>Note</Title>
-                            <TextArea onChange={this.handleChangeNote}>{note}</TextArea>
+                            <TextArea value={content} onChange={this.handleChangeNote}/>
                         </div>
-                        <ActionAdd>
-                            <Button onClick={this.handleClick}>Add</Button>
-                        </ActionAdd>
+
+                        <Switch>
+                            <Route path={routes.singleNote} component={actionEdit}/>
+                            <Route path={routes.notes} component={actionAdd}/>
+                        </Switch>
                     </Form>
                 </Container>
             </Wrapper>
@@ -115,4 +158,6 @@ class Modal extends React.Component {
     }
 }
 
-export default Modal;
+const mapStateToProps = ({notes}) => ({notes});
+
+export default withRouter(connect(mapStateToProps, null)(Modal));

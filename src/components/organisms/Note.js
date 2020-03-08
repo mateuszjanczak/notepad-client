@@ -19,11 +19,14 @@ const Wrapper = styled.div`
 
 const Text = styled.div`
   text-align: justify;
+  min-height: calc(6 * 1.8rem);
+`;
+
+const ShortText = styled(Text)`
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 6;
-  -webkit-box-orient: vertical;  
-  min-height: calc(6 * 1.8rem);
+  -webkit-box-orient: vertical;
 `;
 
 const Actions = styled.div`
@@ -71,32 +74,56 @@ class Note extends React.Component {
             return <Redirect to={`notes/${id}`} />;
         }
 
+        const singleNote = () => {
+
+            const { openModalFn } = this.props;
+
+            return (
+                <>
+                    <Action>
+                        <Button onClick={openModalFn}>
+                            <FontAwesomeIcon icon={faEdit}/>
+                        </Button>
+                    </Action>
+                    <Action>
+                        <Button color={Colors.remove} onClick={() => this.handleRemove(id)}>
+                            <FontAwesomeIcon icon={faTrash}/>
+                        </Button>
+                    </Action>
+                </>
+            );
+        };
+
+        const TextComponent = () => {
+            return (
+                <Text>{content}</Text>
+            )
+        };
+
+        const ShortTextComponent = () => {
+            return (
+                <ShortText>{content}</ShortText>
+            )
+        };
+
         return (
             <Wrapper>
                 <Title>{title}</Title>
-                <Text>{content}</Text>
+                <Switch>
+                    <Route exact path={routes.notes} component={ShortTextComponent}/>
+                    <Route exact path={routes.singleNote} component={TextComponent} />
+                </Switch>
                 <Line/>
                 <Actions>
                     <Switch>
                         <Route exact path={routes.notes}>
                             <Action>
-                                <Button onClick={() => this.handleClick()}>
+                                <Button onClick={this.handleClick}>
                                     <FontAwesomeIcon icon={faBookOpen}/>
                                 </Button>
                             </Action>
                         </Route>
-                        <Route exact path={routes.singleNote}>
-                            <Action>
-                                <Button>
-                                    <FontAwesomeIcon icon={faEdit}/>
-                                </Button>
-                            </Action>
-                            <Action>
-                                <Button color={Colors.remove} onClick={() => this.handleRemove(id)}>
-                                    <FontAwesomeIcon icon={faTrash}/>
-                                </Button>
-                            </Action>
-                        </Route>
+                        <Route exact path={routes.singleNote} component={singleNote} />
                     </Switch>
                 </Actions>
             </Wrapper>

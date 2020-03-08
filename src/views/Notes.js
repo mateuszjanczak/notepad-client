@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import {Switch, Route, withRouter} from "react-router-dom";
 import styled from "styled-components";
 import Note from "components/organisms/Note";
-import {addItem as addItemAction, fetchItems as fetchItemsAction} from "actions";
+import {addItem as addItemAction, editItem as editItemAction, fetchItems as fetchItemsAction} from "actions";
 import Modal from "components/organisms/Modal";
 import Button from "components/atoms/Button";
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
@@ -76,7 +76,7 @@ class Notes extends React.Component {
 
         const { isModalOpen } = this.state;
 
-        const { addItem } = this.props;
+        const { addItem, editItem } = this.props;
 
         const notesList = () => {
             const { notes } = this.props;
@@ -93,7 +93,8 @@ class Notes extends React.Component {
 
             return (
                 <>
-                <Action>
+                    {isModalOpen && <Modal addNoteFn={addItem} closeModalFn={this.closeModal} />}
+                    <Action>
                     <Button onClick={this.openModal}>
                         <FontAwesomeIcon icon={faPlus}/>
                     </Button>
@@ -113,22 +114,24 @@ class Notes extends React.Component {
             const note = notes.find(note=>note.id === parseInt(id));
 
             const noteElement = note ? (
-                <Note key={note.id} note={note}/>
+                <Note key={note.id} note={note} openModalFn={this.openModal}/>
             ) : (
                 <span>No notes</span>
             );
 
 
             return (
+                <>
+                {isModalOpen && <Modal editNoteFn={editItem} openModalFn={this.openModal} closeModalFn={this.closeModal} />}
                 <Element>
-                    {noteElement}
+                {noteElement}
                 </Element>
+                </>
             )
         };
 
         return (
             <Wrapper>
-                {isModalOpen && <Modal addNoteFn={addItem} closeModalFn={this.closeModal} />}
                 <Switch>
                     <Route exact path={routes.singleNote} component={note}/>
                     <Route path={routes.notes} component={notesList}/>
@@ -146,7 +149,8 @@ const mapStateToProps = ({notes}) => ({notes});
 
 const mapDispatchToProps = dispatch => ({
     fetchItems: () => dispatch(fetchItemsAction()),
-    addItem: (itemContent) => dispatch(addItemAction(itemContent))
+    addItem: (itemContent) => dispatch(addItemAction(itemContent)),
+    editItem: (id, itemContent) => dispatch(editItemAction(id, itemContent))
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Notes));
