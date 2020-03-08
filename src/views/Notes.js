@@ -51,8 +51,7 @@ const Element = styled.div`
 class Notes extends React.Component {
 
     state = {
-        isModalOpen: false,
-        single: false
+        isModalOpen: false
     };
 
     closeModal = () => {
@@ -95,13 +94,13 @@ class Notes extends React.Component {
                 <>
                     {isModalOpen && <Modal addNoteFn={addItem} closeModalFn={this.closeModal} />}
                     <Action>
-                    <Button onClick={this.openModal}>
-                        <FontAwesomeIcon icon={faPlus}/>
-                    </Button>
-                </Action>
-                <List>
-                    {notesList}
-                </List>
+                        <Button onClick={this.openModal}>
+                            <FontAwesomeIcon icon={faPlus}/>
+                        </Button>
+                    </Action>
+                    <List>
+                        {notesList}
+                    </List>
                 </>
             )
         };
@@ -116,7 +115,7 @@ class Notes extends React.Component {
             const noteElement = note ? (
                 <Note key={note.id} note={note} openModalFn={this.openModal}/>
             ) : (
-                <span>No notes</span>
+                <span>Note not found</span>
             );
 
 
@@ -140,10 +139,6 @@ class Notes extends React.Component {
         )
     }
 }
-
-Notes.defaultProps= {
-    notes: []
-};
 
 const mapStateToProps = ({notes}) => ({notes});
 

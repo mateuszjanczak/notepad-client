@@ -4,7 +4,6 @@ import { Provider } from 'react-redux';
 import styled from "styled-components";
 import store from "store";
 import {routes} from "routes";
-import Home from "views/Home";
 import Notes from "views/Notes";
 import Err404 from "views/Err404";
 import GlobalStyle from "theme";
@@ -23,7 +22,6 @@ const App = () => {
               <Wrapper>
                   <Navbar/>
                   <Switch>
-                      <Route exact path={routes.home} component={Home} />
                       <Route path={routes.notes} component={Notes} />
                       <Route component={Err404} />
                   </Switch>

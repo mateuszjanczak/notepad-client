@@ -1,5 +1,7 @@
 export const routes = {
-    home: '/',
-    notes: '/notes',
+    notes: [
+        '/',
+        '/notes'
+    ],
     singleNote: '/notes/:id'
 };

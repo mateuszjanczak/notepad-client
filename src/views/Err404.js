@@ -5,7 +5,7 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  min-height: calc(100vh - 10rem);
 `;
 
 const Error = styled.h1`
