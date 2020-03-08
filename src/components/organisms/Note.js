@@ -8,7 +8,6 @@ import Button from "components/atoms/Button";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBookOpen,  faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {routes} from "routes";
-//import { withRouter } from 'react-router-dom';
 
 const Wrapper = styled.div`
   width: 100%;

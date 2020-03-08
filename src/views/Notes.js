@@ -3,6 +3,10 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import Note from "components/organisms/Note";
 import {fetchItems as fetchItemsAction} from "actions";
+import Modal from "components/organisms/Modal";
+import Button from "components/atoms/Button";
+import {faPlus} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const Wrapper = styled.div`
   padding: 3rem;
@@ -32,7 +36,30 @@ const List = styled.div`
   }
 `;
 
+const Action = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 4rem);
+  justify-content: flex-end;
+`;
+
+
 class Notes extends React.Component {
+
+    state = {
+        isModalOpen: false
+    };
+
+    closeModal = () => {
+        this.setState({
+            isModalOpen: false,
+        });
+    };
+
+    openModal = () => (
+        this.setState({
+            isModalOpen: true,
+        })
+    );
 
     componentDidMount() {
         const { fetchItems } = this.props;
@@ -42,6 +69,8 @@ class Notes extends React.Component {
 
     render() {
         const { notes } = this.props;
+
+        const { isModalOpen } = this.state;
 
         const notesList = notes.length ? (
             notes.map((note) => {
@@ -54,7 +83,14 @@ class Notes extends React.Component {
         );
 
         return (
+
             <Wrapper>
+                {isModalOpen && <Modal closeModalFn={this.closeModal} />}
+                <Action>
+                    <Button onClick={this.openModal}>
+                        <FontAwesomeIcon icon={faPlus}/>
+                    </Button>
+                </Action>
                 <List>
                     {notesList}
                 </List>
