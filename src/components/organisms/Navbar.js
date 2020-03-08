@@ -39,21 +39,9 @@ const Navbar = () => {
         <Nav>
             <NavList>
                 <NavListItem>
-                    <Link as={NavLink} exact to="/">Home</Link>
-                </NavListItem>
-                <NavListItem>
                     <Link as={NavLink} to="/notes">Notes</Link>
                 </NavListItem>
             </NavList>
-            <NavList>
-                <NavListItem>
-                    <Link as={NavLink} to="/">Login</Link>
-                </NavListItem>
-                <NavListItem>
-                    <Link as={NavLink} to="/">Register</Link>
-                </NavListItem>
-            </NavList>
-
         </Nav>
     )
 };

@@ -1,9 +1,14 @@
 import React from "react";
+import {Redirect, Switch, Route, withRouter} from "react-router-dom";
+import { connect } from "react-redux";
+import {editItem as editItemAction, removeItem as removeItemAction} from "actions";
 import styled from "styled-components";
 import Title from "components/atoms/Title";
 import Button from "components/atoms/Button";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBookOpen,  faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {routes} from "routes";
+//import { withRouter } from 'react-router-dom';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -24,7 +29,7 @@ const Text = styled.div`
 
 const Actions = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 4rem);
+  grid-template-columns: repeat(auto-fit, 4rem);
   grid-gap: 1rem;
   justify-content: flex-end;
   margin-top: 1rem;
@@ -40,32 +45,69 @@ const Colors = {
   remove: '#EF3E36'
 };
 
-const Note = (props) => {
-    const {user, content} = props.notes;
-    return (
-        <Wrapper>
-            <Title>{user}</Title>
-            <Text>{content}</Text>
-            <Line/>
-            <Actions>
-                <Action>
-                    <Button>
-                        <FontAwesomeIcon icon={faBookOpen} />
-                    </Button>
-                </Action>
-                <Action>
-                    <Button>
-                        <FontAwesomeIcon icon={faEdit} />
-                    </Button>
-                </Action>
-                <Action>
-                    <Button color={Colors.remove}>
-                        <FontAwesomeIcon icon={faTrash} />
-                    </Button>
-                </Action>
-            </Actions>
-        </Wrapper>
-    )
-};
+class Note extends React.Component {
 
-export default Note;
+    state = {
+        redirect: false
+    };
+
+    handleClick = () => {
+        this.setState({
+           redirect: !this.state.redirect
+        });
+    };
+
+    handleRemove = (id) => {
+        const {history, removeItem} = this.props;
+        removeItem(id);
+        setTimeout(()=>{history.push('/notes')}, 500);
+    };
+
+    render() {
+        const {id, title, content} = this.props.note;
+
+        const { redirect } = this.state;
+
+        if (redirect) {
+            return <Redirect to={`notes/${id}`} />;
+        }
+
+        return (
+            <Wrapper>
+                <Title>{title}</Title>
+                <Text>{content}</Text>
+                <Line/>
+                <Actions>
+                    <Switch>
+                        <Route exact path={routes.notes}>
+                            <Action>
+                                <Button onClick={() => this.handleClick()}>
+                                    <FontAwesomeIcon icon={faBookOpen}/>
+                                </Button>
+                            </Action>
+                        </Route>
+                        <Route exact path={routes.singleNote}>
+                            <Action>
+                                <Button>
+                                    <FontAwesomeIcon icon={faEdit}/>
+                                </Button>
+                            </Action>
+                            <Action>
+                                <Button color={Colors.remove} onClick={() => this.handleRemove(id)}>
+                                    <FontAwesomeIcon icon={faTrash}/>
+                                </Button>
+                            </Action>
+                        </Route>
+                    </Switch>
+                </Actions>
+            </Wrapper>
+        )
+    }
+}
+
+const mapDispatchToProps = dispatch => ({
+    removeItem: (id) => dispatch(removeItemAction(id)),
+    editItem: (id, itemContent) => dispatch(editItemAction(id, itemContent))
+});
+
+export default withRouter(connect(null, mapDispatchToProps)(Note));
