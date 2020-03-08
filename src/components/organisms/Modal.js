@@ -51,9 +51,8 @@ const ActionClose = styled.div`
   display: grid;
   justify-content: right;
   grid-template-columns: repeat(auto-fit, 3rem);
+  margin-bottom: -3rem;
 `;
-
-
 
 const Modal = ({closeModalFn}) => {
     return (

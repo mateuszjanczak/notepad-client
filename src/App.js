@@ -6,7 +6,6 @@ import store from "store";
 import {routes} from "routes";
 import Home from "views/Home";
 import Notes from "views/Notes";
-import SingleNote from "views/SingleNote";
 import Err404 from "views/Err404";
 import GlobalStyle from "theme";
 import Navbar from "components/organisms/Navbar";
@@ -25,8 +24,7 @@ const App = () => {
                   <Navbar/>
                   <Switch>
                       <Route exact path={routes.home} component={Home} />
-                      <Route exact path={routes.notes} component={Notes} />
-                      <Route exact path={routes.singleNote} component={SingleNote} />
+                      <Route path={routes.notes} component={Notes} />
                       <Route component={Err404} />
                   </Switch>
               </Wrapper>
@@ -37,3 +35,5 @@ const App = () => {
 };
 
 export default App;
+
+//<Route exact path={routes.singleNote} component={SingleNote} />

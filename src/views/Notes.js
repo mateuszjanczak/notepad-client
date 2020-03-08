@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import {Switch, Route, withRouter} from "react-router-dom";
 import styled from "styled-components";
 import Note from "components/organisms/Note";
 import {fetchItems as fetchItemsAction} from "actions";
@@ -7,6 +8,7 @@ import Modal from "components/organisms/Modal";
 import Button from "components/atoms/Button";
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {routes} from "routes";
 
 const Wrapper = styled.div`
   padding: 3rem;
@@ -14,7 +16,6 @@ const Wrapper = styled.div`
 
 const List = styled.div`
   padding: 5rem;
-  //border: 1px solid white;
   display: grid;
   grid-gap: 5rem;
   justify-items: center;
@@ -40,13 +41,18 @@ const Action = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, 4rem);
   justify-content: flex-end;
+  margin-bottom: -2rem;
 `;
 
+const Element = styled.div`
+  padding: 8rem;
+`;
 
 class Notes extends React.Component {
 
     state = {
-        isModalOpen: false
+        isModalOpen: false,
+        single: false
     };
 
     closeModal = () => {
@@ -64,28 +70,27 @@ class Notes extends React.Component {
     componentDidMount() {
         const { fetchItems } = this.props;
         fetchItems();
-        console.log(this.props)
     }
 
     render() {
-        const { notes } = this.props;
 
         const { isModalOpen } = this.state;
 
-        const notesList = notes.length ? (
-            notes.map((note) => {
-                return (
-                    <Note key={note.id} note={note}/>
-                )
-            })
-        ) : (
-            <span>No notes</span>
-        );
+        const notesList = () => {
+            const { notes } = this.props;
 
-        return (
+            const notesList = notes.length ? (
+                notes.map((note) => {
+                    return (
+                        <Note key={note.id} note={note}/>
+                    )
+                })
+            ) : (
+                <span>No notes</span>
+            );
 
-            <Wrapper>
-                {isModalOpen && <Modal closeModalFn={this.closeModal} />}
+            return (
+                <>
                 <Action>
                     <Button onClick={this.openModal}>
                         <FontAwesomeIcon icon={faPlus}/>
@@ -94,6 +99,38 @@ class Notes extends React.Component {
                 <List>
                     {notesList}
                 </List>
+                </>
+            )
+        };
+
+        const note = ({match}) => {
+            const { notes } = this.props;
+
+            const { id } = match.params;
+
+            const note = notes.find(note=>note.id === parseInt(id));
+
+            const noteElement = note ? (
+                <Note key={note.id} note={note}/>
+            ) : (
+                <span>No notes</span>
+            );
+
+
+            return (
+                <Element>
+                    {noteElement}
+                </Element>
+            )
+        };
+
+        return (
+            <Wrapper>
+                {isModalOpen && <Modal closeModalFn={this.closeModal} />}
+                <Switch>
+                    <Route exact path={routes.singleNote} component={note}/>
+                    <Route path={routes.notes} component={notesList}/>
+                </Switch>
             </Wrapper>
         )
     }
@@ -109,4 +146,4 @@ const mapDispatchToProps = dispatch => ({
     fetchItems: () => dispatch(fetchItemsAction())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Notes);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Notes));

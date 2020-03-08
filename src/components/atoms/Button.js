@@ -13,6 +13,7 @@ const Button = styled.a`
   text-decoration: none;
   cursor: pointer;
   border-radius: 10%;
+  border: 1px solid black;
   &:hover {
     opacity: 1;
   }

@@ -1,6 +1,6 @@
 import {ADD_ITEM_SUCCESS, EDIT_ITEM_SUCCESS, FETCH_ITEM_SUCCESS, FETCH_SUCCESS, REMOVE_ITEM_SUCCESS} from "actions";
 
-const initialState = {};
+const initialState = {notes: []};
 
 const rootReducer = (state = initialState, action) => {
     switch (action.type) {
