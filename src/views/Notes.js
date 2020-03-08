@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import {Switch, Route, withRouter} from "react-router-dom";
 import styled from "styled-components";
 import Note from "components/organisms/Note";
-import {fetchItems as fetchItemsAction} from "actions";
+import {addItem as addItemAction, fetchItems as fetchItemsAction} from "actions";
 import Modal from "components/organisms/Modal";
 import Button from "components/atoms/Button";
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
@@ -76,6 +76,8 @@ class Notes extends React.Component {
 
         const { isModalOpen } = this.state;
 
+        const { addItem } = this.props;
+
         const notesList = () => {
             const { notes } = this.props;
 
@@ -126,7 +128,7 @@ class Notes extends React.Component {
 
         return (
             <Wrapper>
-                {isModalOpen && <Modal closeModalFn={this.closeModal} />}
+                {isModalOpen && <Modal addNoteFn={addItem} closeModalFn={this.closeModal} />}
                 <Switch>
                     <Route exact path={routes.singleNote} component={note}/>
                     <Route path={routes.notes} component={notesList}/>
@@ -143,7 +145,8 @@ Notes.defaultProps= {
 const mapStateToProps = ({notes}) => ({notes});
 
 const mapDispatchToProps = dispatch => ({
-    fetchItems: () => dispatch(fetchItemsAction())
+    fetchItems: () => dispatch(fetchItemsAction()),
+    addItem: (itemContent) => dispatch(addItemAction(itemContent))
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Notes));

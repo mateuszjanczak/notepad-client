@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-
 export const ADD_ITEM_REQUEST = 'ADD_ITEM_REQUEST';
 export const ADD_ITEM_SUCCESS = 'ADD_ITEM_SUCCESS';
 export const ADD_ITEM_FAILURE = 'ADD_ITEM_FAILURE';
@@ -21,11 +20,13 @@ export const FETCH_ITEM_REQUEST = 'FETCH_ITEM_REQUEST';
 export const FETCH_ITEM_SUCCESS = 'FETCH_ITEM_SUCCESS';
 export const FETCH_ITEM_FAILURE = 'FETCH_ITEM_FAILURE';
 
+const url = `http://localhost:8080`;
+
 export const fetchItems = () => (dispatch) => {
     dispatch({ type: FETCH_REQUEST });
 
     return axios
-        .get('http://127.0.0.1:8080/api/notes/')
+        .get(`${url}/api/notes/`)
         .then(({ data }) => {
             dispatch({
                 type: FETCH_SUCCESS,
@@ -45,7 +46,7 @@ export const fetchItem = (id) => (dispatch) => {
     dispatch({ type: FETCH_ITEM_REQUEST });
 
     return axios
-        .get(`http://127.0.0.1:8080/api/notes/${id}`, {
+        .get(`${url}/api/notes/${id}`, {
         })
         .then(({ data }) => {
             dispatch({
@@ -64,9 +65,9 @@ export const fetchItem = (id) => (dispatch) => {
 
 export const addItem = (itemContent) => (dispatch) => {
     dispatch({ type: ADD_ITEM_REQUEST });
-    console.log(itemContent);
+
     return axios
-        .post('http://localhost:3005/notes', {
+        .post(`${url}/api/notes/`, {
             ...itemContent
         })
         .then(({ data }) => {
@@ -87,7 +88,7 @@ export const editItem = (id, itemContent) => (dispatch) => {
     dispatch({ type: EDIT_ITEM_REQUEST });
 
     return axios
-        .patch(`http://localhost:3005/notes/${id}`, {
+        .patch(`${url}/api/notes/${id}`, {
             ...itemContent
         })
         .then(({ data }) => {
@@ -108,8 +109,9 @@ export const removeItem = (id) => dispatch => {
     dispatch({ type: REMOVE_ITEM_REQUEST });
 
     return axios
-        .delete(`http://127.0.0.1:8080/api/notes/${id}`)
+        .delete(`${url}/api/notes/${id}`)
         .then(() => {
+            console.log(id);
             dispatch({
                 type: REMOVE_ITEM_SUCCESS,
                 payload: {

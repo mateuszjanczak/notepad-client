@@ -35,5 +35,3 @@ const App = () => {
 };
 
 export default App;
-
-//<Route exact path={routes.singleNote} component={SingleNote} />

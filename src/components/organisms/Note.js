@@ -59,7 +59,7 @@ class Note extends React.Component {
     handleRemove = (id) => {
         const {history, removeItem} = this.props;
         removeItem(id);
-        setTimeout(()=>{history.push('/notes')}, 500);
+        history.push('/notes')
     };
 
     render() {

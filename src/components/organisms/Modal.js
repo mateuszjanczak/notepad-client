@@ -6,14 +6,14 @@ import {faTimes} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const Wrapper = styled.div`
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  position: fixed;
+  z-index: 1;
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgba(0, 0, 0, 0.5); /* Black w/ opacity */
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -54,31 +54,65 @@ const ActionClose = styled.div`
   margin-bottom: -3rem;
 `;
 
-const Modal = ({closeModalFn}) => {
-    return (
-        <Wrapper>
-            <Container>
-                <ActionClose onClick={closeModalFn}>
-                    <Button>
-                        <FontAwesomeIcon icon={faTimes}/>
-                    </Button>
-                </ActionClose>
-                <Form>
-                    <div>
-                        <Title>Title</Title>
-                        <Input/>
-                    </div>
-                    <div>
-                        <Title>Note</Title>
-                        <TextArea/>
-                    </div>
-                    <ActionAdd>
-                        <Button>Add</Button>
-                    </ActionAdd>
-                </Form>
-            </Container>
-        </Wrapper>
-    )
-};
+class Modal extends React.Component {
+
+    state = {
+        title: '',
+        content: ''
+    };
+
+    handleChangeTitle = (e) => {
+        this.setState({
+            title: e.target.value
+        });
+    };
+
+    handleChangeNote = (e) => {
+        this.setState({
+            content: e.target.value
+        });
+    };
+
+    handleClick = () => {
+        const { addNoteFn, closeModalFn } = this.props;
+        addNoteFn(this.state);
+        this.setState({
+            title: '',
+            content: ''
+        });
+        closeModalFn();
+    };
+
+    render() {
+        const {closeModalFn} = this.props;
+
+        const { title, note } = this.state;
+
+        return (
+            <Wrapper>
+                <Container>
+                    <ActionClose onClick={closeModalFn}>
+                        <Button>
+                            <FontAwesomeIcon icon={faTimes}/>
+                        </Button>
+                    </ActionClose>
+                    <Form>
+                        <div>
+                            <Title>Title</Title>
+                            <Input value={title} onChange={this.handleChangeTitle} />
+                        </div>
+                        <div>
+                            <Title>Note</Title>
+                            <TextArea onChange={this.handleChangeNote}>{note}</TextArea>
+                        </div>
+                        <ActionAdd>
+                            <Button onClick={this.handleClick}>Add</Button>
+                        </ActionAdd>
+                    </Form>
+                </Container>
+            </Wrapper>
+        )
+    }
+}
 
 export default Modal;

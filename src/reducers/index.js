@@ -22,13 +22,13 @@ const rootReducer = (state = initialState, action) => {
         case REMOVE_ITEM_SUCCESS:
             return {
                 ...state,
-                notes: state.notes.filter(item => item._id !== action.payload.id)
+                notes: state.notes.filter(item => item.id !== action.payload.id)
             };
         case EDIT_ITEM_SUCCESS:
             const note = action.payload.data;
             return {
                 ...state,
-                notes: state.notes.map(item => item._id === note._id ? note : item)
+                notes: state.notes.map(item => item.id === note.id ? note : item)
             };
         default:
             return state;
