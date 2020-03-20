@@ -1,5 +1,14 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Notepad Client
+
+App for note management.
+To start, you need to run [notepad-service](https://github.com/mateuszjanczak/notepad-service) (back-end).
+
+## Preview
+
+![Preview](notepad.gif)
+
 ## Available Scripts
 
 In the project directory, you can run:
