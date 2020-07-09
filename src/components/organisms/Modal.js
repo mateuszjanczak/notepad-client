@@ -68,7 +68,7 @@ class Modal extends React.Component {
     componentDidMount() {
         const { notes } = this.props;
         const { id } = this.props.match.params;
-        const note = notes.find(note=>note.id === parseInt(id));
+        const note = notes.find(note=>note.id === id);
         this.setState({
             ...note
         })

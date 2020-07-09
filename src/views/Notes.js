@@ -110,7 +110,7 @@ class Notes extends React.Component {
 
             const { id } = match.params;
 
-            const note = notes.find(note=>note.id === parseInt(id));
+            const note = notes.find(note=>note.id === id);
 
             const noteElement = note ? (
                 <Note key={note.id} note={note} openModalFn={this.openModal}/>
